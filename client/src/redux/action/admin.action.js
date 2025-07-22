@@ -67,7 +67,7 @@ export class AdminAction{
           
               try {
 
-                const {data} = await ApiManager.post("api/admin/session",payload);
+                const {data} = await ApiManager.get("api/admin/session",payload);
              
                 return fulfillWithValue(data)
                    
@@ -94,7 +94,7 @@ export class AdminAction{
           
               try {
 
-                const {data} = await ApiManager.post("api/admin/logout",payload);
+                const {data} = await ApiManager.get("api/admin/logout",payload);
              
                 return fulfillWithValue(data)
                    
