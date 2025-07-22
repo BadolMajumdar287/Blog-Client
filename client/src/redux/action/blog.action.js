@@ -8,7 +8,7 @@ export class BlogAction {
         "api/blog/create",
 
          async (payload,{rejectWithValue, fulfillWithValue }) => {
-              
+            
               try {
 
                 const {data} = await ApiManager.post("api/blog/create",payload);
@@ -104,12 +104,12 @@ export class BlogAction {
     static DeleteBlog = createAsyncThunk(
         "api/blog/delete",
 
-         async (payload,{rejectWithValue, fulfillWithValue }) => {
+         async (blogId,{rejectWithValue, fulfillWithValue }) => {
              
               try {
 
-                const {data} = await ApiManager.get("api/blog/delete",payload);
-                  
+                const {data} = await ApiManager.delete(`api/blog/delete/${blogId}`);
+               
                 return fulfillWithValue(data)
                    
               } catch (error) {

@@ -106,7 +106,7 @@ export const BlogSlice = createSlice({
 
 
 
-                      .addCase(BlogAction.DeleteBlog.pending, (state, action) => {
+                     .addCase(BlogAction.DeleteBlog.pending, (state, action) => {
                      state.loading = true;
         
                     })
