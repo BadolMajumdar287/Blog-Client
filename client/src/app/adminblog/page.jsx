@@ -74,6 +74,12 @@ export default function AdminBlogPage(){
       async function handleDeleteBlog(blogId) {
            
              const res = dispatch(BlogAction.DeleteBlog({blogId}))
+                 
+             if(res.payload?.message){
+                toast.success(res.payload?.message)
+             }else if(res.payload?.error){
+                toast.error(res.payload?.error);
+             }
       }
     
 
@@ -114,9 +120,9 @@ export default function AdminBlogPage(){
                            <Link href={`adminblog/${item._id}`}>
                                <h1 className="ml-2 text-2xl text-blue-200 mt-10">{item.title}</h1>
                                 <p className="ml-2 text-2xl text-blue-200">{item.content}</p>
-                             
+                                
                            </Link>
-                             
+                           
                      </div>
                     ))
                  }
