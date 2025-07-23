@@ -7,7 +7,7 @@ import { BlogAction } from "@/redux/action/blog.action";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-
+import { getImageUrl } from "@/lib/image";
  
 
 export default function AdminBlogPage(){
@@ -19,8 +19,7 @@ export default function AdminBlogPage(){
     const [advator,setadvator] = useState(null);
     const {blog,allblog,loading,message,error} = useSelector((state) => state.blog);
     
-  
-   
+    
     async function hundleSession() {
         
         const res = await dispatch(AdminAction.Session());
@@ -44,6 +43,7 @@ export default function AdminBlogPage(){
           formData.append('advator', advator);
           formData.append('title', title);
           formData.append('content', content);
+
 
        const res = await dispatch(BlogAction.CreateBlog(formData));
       
@@ -131,8 +131,10 @@ export default function AdminBlogPage(){
                                  
                            </div>
                            <Link href={`adminblog/${item._id}`}>
-                               
-                              <img src={title.advator} alt= {item.title} width= {400} height={400}/>
+                                                             
+                             <h1 className="text-yellow-400">{item.advator[0]?.filename}</h1>
+
+                              <img src={getImageUrl(item.advator[0]?.filename)} height={200} width={150}/>
 
                                <h1 className="ml-2 text-2xl text-blue-200 mt-10">{item.title}</h1>
                                
