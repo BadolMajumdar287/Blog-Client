@@ -6,6 +6,7 @@ import { useParams } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { toast } from "sonner"
+import { getImageUrl } from "@/lib/image"
 
 
 
@@ -15,6 +16,8 @@ export default function AdminBlogDetail(){
        const blogId = params.id;
        const dispatch = useDispatch();
        const {blog} = useSelector((state) => state.blog);
+       
+       
 
        async function handleGetById() {
             
@@ -28,15 +31,17 @@ export default function AdminBlogDetail(){
                 
        }
 
+       
 
        useEffect(() => {
          handleGetById();
        },[blogId])
 
         return(
-            <div className="mt-20 text-amber-600">
-                  <h1>{blog.title}</h1>
-                  <h2>{blog.content}</h2>
+            <div className="mt-10">
+                  <img src={getImageUrl(blog?.advator?.[0]?.filename)} className="h-90 w-112"/>
+                  <h1 className="mt-3 text-2xl text-cyan-100">{blog.title}</h1>
+                  <h2 className="mt-5 text-xl text-cyan-50 ">{blog.content}</h2>
             </div>
         )
 

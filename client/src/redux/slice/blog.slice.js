@@ -11,13 +11,18 @@ export const BlogSlice = createSlice({
         allblog: [],
         message: "",
         error: "",
-        loading: false
+        loading: false,
+        selectedBlog: null
     },
 
     reducers: {
-        setBlog: (state, { payload}) => {
-            state.blog = payload;
-        }
+       setSelectedBlog(state, action) {
+        state.selectedBlog = action.payload;
+      },
+       clearSelectedBlog(state) {
+       state.selectedBlog = null;
+     }
+
     },
 
      
@@ -134,4 +139,7 @@ export const BlogSlice = createSlice({
 
 
 
-})
+});
+
+
+export const { setSelectedBlog, clearSelectedBlog } = BlogSlice.actions;

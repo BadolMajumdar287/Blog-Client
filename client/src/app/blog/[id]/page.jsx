@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { BlogAction } from "@/redux/action/blog.action";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { getImageUrl } from "@/lib/image";
 
 export default function BlogDetail(){
 
@@ -14,7 +15,6 @@ export default function BlogDetail(){
      const {blog} = useSelector((state) => state.blog);
      const dispatch = useDispatch();
    
-    
 
        async function hundleGetById() {
                
@@ -34,9 +34,11 @@ export default function BlogDetail(){
        },[blogId]);
 
       return(
-        <div className="text-amber-400 mt-10">
-             <h1>{blog.title}</h1>
-           <p>{blog.content}</p>
+        <div className="mt-10">
+             <img src={getImageUrl(blog?.advator?.[0]?.filename)} alt={blog?.title} className="border h-90 w-115"/>
+
+             <h1 className="text-cyan-100 text-2xl p-2 ">{blog?.title}</h1>
+           <p className="text-cyan-50 text-xl p-2">{blog?.content}</p>
         </div>
       )
 

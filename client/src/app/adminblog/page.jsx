@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { getImageUrl } from "@/lib/image";
- 
+import { Save } from "lucide-react";
+
 
 export default function AdminBlogPage(){
 
@@ -101,50 +102,42 @@ export default function AdminBlogPage(){
     },[])
 
     return(
-        <div>
-                 <div>
-                     <input className="border mt-20"type="file" onChange={(e) => setadvator(e.target.files[0])}/>
-                 </div>
-                  <div className="mt-10">
-                    <textarea className="w-full h-fit text-black font-bold text-xl mt-5" 
-                    id="title" name="title" placeholder="Title.." value={title} onChange={(e) => settitle(e.target.value)}/>
-                  </div>
-                  
-                  <div>
-                    <textarea 
-                    className="w-full h-fit text-black font-bold mt-5 text-xl"
-                    name="content" id="content" placeholder="Content..." value={content} onChange={(e) => setcontent(e.target.value)}/>
-                  </div>
+        <div className="mt-10">
+             <div>
+               <input className="border h-8 w-65 ml-1 pt-1 pl-2 text-cyan-600"type="file" onChange={(e) => setadvator(e.target.files[0])}/>
+             </div>
+
+             <div className="flex justify-between mr-4">
+
+                  <textarea className="border h-25 w-65 ml-1 pl-1 pt-1 mt-2 text-xl text-cyan-600" placeholder="Title..."
+                   id="title" name="title"  value={title} onChange={(e) => settitle(e.target.value)}/>
+                  <button className="text-cyan-600" onClick={() => handleCreateBlog()}><Save size={45}/></button>
+               
+             </div> 
+
+              <div>
+                    <textarea className="border h-60 w-96 mt-2 ml-1 text-xl pl-1 pt-1 text-cyan-600" placeholder="Content..."
+                    name="content" id="content" value={content} onChange={(e) => setcontent(e.target.value)}/>
+              </div>
+
                 
-                 <div>
-                    <button className="border h-fit w-fit rounded-2xl font-bold mt-5" 
-                     onClick={handleCreateBlog}>create</button>
-                 </div>
-
-
-                 {
-                    allblog.map((item, index) => (
-                        
-                    <div key={index} className="border w-full h-fit mt-10 bg-cyan-950 ">
-
-                           <div className="border w-65 h-35" >
-                                 
+                <div>
+                     {
+                        allblog.map((item,index) => (
+                           <div key={index} className="border h-fit w-96" >
+                                  
+                                   <Link href={`/adminblog/${item._id}`}>
+                                    <img src={getImageUrl(item?.advator?.[0]?.filename)} className="border h-90 w-115"/>
+                                   <h1 className="mt-2 text-xl">{item.title}</h1>
+                                   <p className="mt-2 text-sm text-cyan-500">{item.updatedAt.substring(0,10)}</p>
+                                   </Link>
+                                   
                            </div>
-                           <Link href={`adminblog/${item._id}`}>
-                                                             
-                             <h1 className="text-yellow-400">{item.advator[0]?.filename}</h1>
+                        ))
+                     }
+                </div>
 
-                              <img src={getImageUrl(item.advator[0]?.filename)} height={200} width={150}/>
 
-                               <h1 className="ml-2 text-2xl text-blue-200 mt-10">{item.title}</h1>
-                               
-                                
-                           </Link>
-                             <button onClick={() => handleDeleteBlog(item._id)} >Delete</button>
-                     </div>
-                    ))
-                 }
-              
         </div>
     )
 }
