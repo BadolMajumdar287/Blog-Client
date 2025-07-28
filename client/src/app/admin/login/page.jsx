@@ -20,7 +20,7 @@ export default function LoginPage(){
             if(!password) return toast.error("password is required");
         
             const res = await dispatch(AdminAction.Login({email,password}))
-                 console.log(res);
+                 
             if(res.payload.message){
               toast.success(res.payload?.message);
                setemail("");
@@ -32,9 +32,11 @@ export default function LoginPage(){
        }
     return(
         <div className="top-0 right-0 left-0 flex justify-center mt-52">
+          
         <div className="border w-80 h-60 bg-cyan-950 ">
-      
-            <div className="mt-20 ml-14">
+          <div className="mt-1 pl-1 text-cyan-800">Admin Login</div>
+            <div className="mt-13 ml-14">
+                   
                  <input className="border w-50 h-6 bg-gray-800 text-cyan-500 text-sm rounded-2xl p-2"
                   type="email" placeholder="Enter your email..." value={email} onChange={(e) => setemail(e.target.value)}/>
             
@@ -49,7 +51,7 @@ export default function LoginPage(){
             </div>
 
             <div className=" text-cyan-200 mt-10">
-              <p>Go To Blog Page ! <Link href="/">Blog</Link></p>
+              <p>Go To Blog Page ! <Link href="/blog">Blog</Link></p>
             </div>
               
            </div>

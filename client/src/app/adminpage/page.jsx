@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import { getImageUrl } from "@/lib/image";
 import { Save } from "lucide-react";
+import { all } from "axios";
 
 
 export default function AdminBlogPage(){
@@ -76,9 +77,15 @@ export default function AdminBlogPage(){
       }
 
      
-      async function handleUpdateBlog() {
+      async function handleUpdateBlog(blogId) {
          
-        
+         const res = await dispatch(BlogAction.UpdateBlog({blogId,title,content}));
+
+           if(res.payload?.message){
+               toast.success(res.payload?.message);
+           }else if(res.payload?.error){
+              toast.error(res.payload?.error);
+           }
 
       }
 
@@ -120,22 +127,19 @@ export default function AdminBlogPage(){
                     name="content" id="content" value={content} onChange={(e) => setcontent(e.target.value)}/>
               </div>
 
+              {
+                allblog.map((item,index) => (
+                    <div key={index}>
+                        <Link href={`/adminpage/${item._id}`}>
+                        <img src= {getImageUrl(item.advator?.[0].filename)} className="border h-90 w-115"/>
+                        <h1 className="text-xl mt-2 pl-2">{item.title}</h1>
+                        
+                        </Link>
+                    </div>
+                ))
+              }
+
                 
-                <div>
-                     {
-                        allblog.map((item,index) => (
-                           <div key={index} className="border h-fit w-96" >
-                                  
-                                   <Link href={`/adminblog/${item._id}`}>
-                                    <img src={getImageUrl(item?.advator?.[0]?.filename)} className="border h-90 w-115"/>
-                                   <h1 className="mt-2 text-xl">{item.title}</h1>
-                                   <p className="mt-2 text-sm text-cyan-500">{item.updatedAt.substring(0,10)}</p>
-                                   </Link>
-                                   
-                           </div>
-                        ))
-                     }
-                </div>
 
 
         </div>

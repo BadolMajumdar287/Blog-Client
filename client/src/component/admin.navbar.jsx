@@ -1,11 +1,11 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { EllipsisVertical,LogOut,User,Plus,Trash2,Pen } from "lucide-react"
+import { EllipsisVertical,LogOut,User,Plus,Trash2,Pen,Menu } from "lucide-react"
 import { AdminAction } from "@/redux/action/admin.action";
 import { BlogAction } from "@/redux/action/blog.action";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 
@@ -17,9 +17,10 @@ export default function AdminNavbar(){
        const [showLogout,setshowLogout] = useState(false);
        const [deleteBlog,setdeletBlog] = useState("");
        const [editBlog,seteditBlog] = useState("");
+       const [adminName,setAdminName] = useState(false)
        const {admin} = useSelector(state => state.admin);
        const {blog} = useSelector(state => state.blog);
-       const [showAdminName,setshowAdminName] = useState(false);
+       
       
        async function hundleDeleteBlog(BlogId) {
              const res = await dispatch(BlogAction.DeleteBlog(BlogId));
@@ -32,7 +33,23 @@ export default function AdminNavbar(){
             }
        }
 
-    
+
+
+       async function handleUpdateBlog(blogId) {
+
+        const res = await dispatch(BlogAction.UpdateBlog({blogId,title,content}));
+
+        if(res.payload?.message){
+            toast.success(res.payload?.message);
+        }else if(res.payload?.error){
+            toast.error(res.payload?.error);
+        }
+        
+       }
+
+
+       
+     
        
        async function handleLogout() {
             
@@ -50,7 +67,7 @@ export default function AdminNavbar(){
       <div>
           <div className="fixed top-0 left-0 right-0 h-9 w-97 bg-cyan-900 flex justify-between items-center">
                 <div className="flex gap-3 ml-2 text-cyan-300">
-                     <button className="border h-fit w-fit rounded-full bg-cyan-800" onClick={() => setshowAdminName(prev => !prev)}><User/></button>
+                     <button className="border h-fit w-fit rounded-full bg-cyan-800" onClick={() => setAdminName(prev => !prev)}><User color="cyan"/></button>
                      <button className="border h-fit w-fit rounded-2xl bg-cyan-800" onClick={() => router.push("/")}>Home</button>
                      <button className="border h-fit w-fit rounded-2xl bg-cyan-800" onClick={() => router.push("/blog")}>Blog</button>
                 </div>
@@ -67,7 +84,7 @@ export default function AdminNavbar(){
                              <button className="mt-2" onClick={() => handleLogout()}><LogOut color="cyan"/></button> 
                           </div>
                             <div>
-                              <button className="mt-2"><Pen color="cyan"/></button>
+                              <button className="mt-2" onClick={() => seteditBlog(blog)}><Pen color="cyan"/></button>
                             </div>
                             <div>
                                <button className="mt-2" onClick={() => setdeletBlog(blog)}><Trash2 color="cyan"/></button>
@@ -78,15 +95,21 @@ export default function AdminNavbar(){
                       }
                  </div>
 
-                 <div>
-                     {
-                      showAdminName &&(
-                        <div>
-                           <p className="absolute text-cyan-300">{admin.fullname}</p>
-                        </div>
-                      )
-                     }
-                 </div>
+                 
+
+                   <div>
+                        {
+                          editBlog && (
+                              <div>
+                                    
+                                     <div>
+                                         <button onClick={() => seteditBlog(null)}>Cancel</button>
+                                         <button onClick={() => handleUpdateBlog()}>Update</button> 
+                                     </div>
+                              </div>
+                          )
+                        }
+                   </div>
 
 
                  <div>
@@ -101,6 +124,14 @@ export default function AdminNavbar(){
                          </div>
                       )
 
+                     }
+                 </div>
+
+                 <div>
+                     {
+                      adminName && (
+                        <p className="absolute text-cyan-300">{admin.fullname}</p>
+                      )
                      }
                  </div>
                 

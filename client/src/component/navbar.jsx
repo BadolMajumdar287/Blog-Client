@@ -6,15 +6,11 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <div className="fixed top-0 right-0 left-0 bg-cyan-900 border h-9 w-full flex items-center justify-between ">
-      <div className="flex items-center gap-2">
-        <button className="border w-fit h-fit rounded-2xl text-cyan-400 bg-cyan-950 "onClick={() => router.push("/")}>Home</button>
-        <button className="border w-fit h-fit rounded-2xl text-cyan-400 bg-cyan-950" onClick={() => router.push("/blog")}>Blog</button>
-        <button className="border w-fit h-fit rounded-2xl text-cyan-400 bg-cyan-950" onClick={() => router.push("/blog/contact")}>Contact Us</button>
-      </div>
-      <div className="">
+    <div className="fixed top-0 right-0 left-0 h-9 w-full flex justify-center gap-2">
+        <button className="border w-fit h-fit rounded-2xl bg-cyan-950 text-cyan-400" onClick={() => router.push("/blog")}>Blog Page</button>
+       <button className="border w-fit h-fit rounded-2xl bg-cyan-950 text-cyan-400" onClick={() => router.push("/adminpage")}>Admin Page</button>
         <button className="border w-fit h-fit rounded-2xl text-cyan-400 bg-cyan-950" onClick={() => router.push("/admin/login")}>Admin Login</button>
       </div>
-    </div>
+   
   );
 }
