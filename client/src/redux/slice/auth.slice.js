@@ -9,7 +9,7 @@ export const AuthSlice = createSlice({
 
   initialState: {
 
-     user:null,
+     user: "",
      searchQuery: '',
      message: "",
      error: "",
@@ -43,6 +43,85 @@ export const AuthSlice = createSlice({
                    
                                })
                                .addCase(AuthAction.Register.rejected, (state, action) => {
+                                   state.loading = false;
+                                   state.error = action.payload.error;
+                                   state.message = "";
+                                  
+                               })
+
+
+
+
+
+                               
+                               .addCase(AuthAction.Login.pending, (state, action) => {
+                                   state.loading = true;
+                   
+                               })
+                               .addCase(AuthAction.Login.fulfilled, (state, action) => {
+                                state.user = action.payload.user;
+                                state.loading = false;
+                                state.message = action.payload.message;
+                                state.error = "";
+                   
+                               })
+                               .addCase(AuthAction.Login.rejected, (state, action) => {
+                                   state.loading = false;
+                                   state.error = action.payload.error;
+                                   state.message = "";
+                                  
+                               })
+
+
+
+
+
+                               
+                               .addCase(AuthAction.Session.pending, (state, action) => {
+                                   state.loading = true;
+                   
+                               })
+                               .addCase(AuthAction.Session.fulfilled, (state, action) => {
+                                state.user = action.payload.user;
+                                state.loading = false;
+                                state.message = action.payload.message;
+                                state.error = "";
+                   
+                               })
+                               .addCase(AuthAction.Session.rejected, (state, action) => {
+                                   state.loading = false;
+                                   state.error = action.payload.error;
+                                   state.message = "";
+                                  
+                               })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+                               .addCase(AuthAction.Logout.pending, (state, action) => {
+                                   state.loading = true;
+                   
+                               })
+                               .addCase(AuthAction.Logout.fulfilled, (state, action) => {
+                                state.user = action.payload.user;
+                                state.loading = false;
+                                state.message = action.payload.message;
+                                state.error = "";
+                   
+                               })
+                               .addCase(AuthAction.Logout.rejected, (state, action) => {
                                    state.loading = false;
                                    state.error = action.payload.error;
                                    state.message = "";

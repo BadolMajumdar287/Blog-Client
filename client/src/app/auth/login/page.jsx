@@ -1,12 +1,36 @@
 "use client"
 import { useState,useEffect } from "react"
 import { useRouter } from "next/navigation";
+import { AuthAction } from "@/redux/action/auth.action";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 export default function userLogin(){
      
       const [email,setemail] = useState("")
       const [password,setpassword] = useState("");
       const router = useRouter();
+      const dispatch = useDispatch();
+
+
+      async function hundleUserLogin() {
+               
+        if(!email) return toast.error("Enter your email.");
+        if(!password) return toast.error("Enter your password.");
+
+
+          const res = await dispatch(AuthAction.Login({email,password}));
+
+          if(res.payload?.message){
+              toast.success(res.payload?.message);
+              router.push("/blog")
+          }else if(res.payload?.error){
+              toast.error(res.payload?.error);
+          }
+             
+      }
+     
+      
 
 
     return(
@@ -25,7 +49,7 @@ export default function userLogin(){
            
     
             <div>
-               <button className="border h-5 w-12 bg-gray-800 text-cyan-600 text-sm rounded-2xl mt-2 ml-19">login</button>
+               <button className="border h-5 w-12 bg-gray-800 text-cyan-600 text-sm rounded-2xl mt-2 ml-19" onClick={() => hundleUserLogin()}>login</button>
 
             </div>
             

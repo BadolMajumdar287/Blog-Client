@@ -32,4 +32,88 @@ export class AuthAction{
 
      )
 
+
+     static Login = createAsyncThunk(
+
+         "api/users/login",
+
+            async (payload,{rejectWithValue, fulfillWithValue }) => {
+          
+              try {
+
+                const {data} = await ApiManager.post("api/users/login",payload);
+                      
+                return fulfillWithValue(data)
+                   
+              } catch (error) {
+             
+                return rejectWithValue(error.response.data);
+
+              }
+
+
+        }
+           
+
+
+     )
+
+
+
+
+
+     static Session= createAsyncThunk(
+
+         "api/users/session",
+
+            async (payload,{rejectWithValue, fulfillWithValue }) => {
+          
+              try {
+
+                const {data} = await ApiManager.get("api/users/session",payload);
+                      console.log(data)
+                return fulfillWithValue(data)
+                   
+              } catch (error) {
+             
+                return rejectWithValue(error.response.data);
+
+              }
+
+
+        }
+           
+
+
+     )
+
+
+
+
+
+     static Logout = createAsyncThunk(
+
+         "api/users/logout",
+
+            async (payload,{rejectWithValue, fulfillWithValue }) => {
+          
+              try {
+
+                const {data} = await ApiManager.get("api/users/logout",payload);
+             
+                return fulfillWithValue(data)
+                   
+              } catch (error) {
+             
+                return rejectWithValue(error.response.data);
+
+              }
+
+
+        }
+           
+
+
+     )
+
 }
