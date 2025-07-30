@@ -11,21 +11,21 @@ export default function LoginPage(){
 
        const [email,setemail] = useState("");
        const [password,setpassword] = useState("");
-
+         
        const dispatch = useDispatch();
 
-       async function handleLogin(){
+       async function handleLoginAdmin(){
 
             if(!email) return toast.error("email is required");
             if(!password) return toast.error("password is required");
         
             const res = await dispatch(AdminAction.Login({email,password}))
                  
-            if(res.payload.message){
+            if(res.payload?.message){
               toast.success(res.payload?.message);
                setemail("");
                setpassword("");
-               }else if(res.payload.error){
+               }else if(res.payload?.error){
                 toast.error(res.payload?.error);
                }
 
@@ -46,7 +46,7 @@ export default function LoginPage(){
            
     
             <div>
-               <button onClick={handleLogin} className="border h-5 w-12 bg-gray-800 text-cyan-600 text-sm rounded-2xl mt-2 ml-19">login</button>
+               <button onClick={() => handleLoginAdmin()} className="border h-5 w-12 bg-gray-800 text-cyan-600 text-sm rounded-2xl mt-2 ml-19">login</button>
 
             </div>
 

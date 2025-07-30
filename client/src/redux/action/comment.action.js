@@ -22,7 +22,40 @@ export class CommentAction {
     async (payload, { rejectWithValue, fulfillWithValue }) => {
       try {
         const { data } = await ApiManager.get("api/comments/getall", payload);
-         
+           
+        return fulfillWithValue(data);
+        
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
+
+
+
+  static GetById = createAsyncThunk(
+    "api/comments/getbyid",
+    async (payload, { rejectWithValue, fulfillWithValue }) => {
+      try {
+        const { data } = await ApiManager.get(`api/comments/getbyid/${payload}`);
+            console.log(data)
+        return fulfillWithValue(data);
+        
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
+
+
+
+
+   static CommentDelete = createAsyncThunk(
+    "api/comments/delete",
+    async (payload, { rejectWithValue, fulfillWithValue }) => {
+      try {
+        const { data } = await ApiManager.delete(`api/comments/delete/${payload}`);
+            console.log(data)
         return fulfillWithValue(data);
         
       } catch (error) {

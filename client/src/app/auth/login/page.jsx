@@ -23,7 +23,7 @@ export default function userLogin(){
 
           if(res.payload?.message){
               toast.success(res.payload?.message);
-              router.push("/blog")
+              
           }else if(res.payload?.error){
               toast.error(res.payload?.error);
           }

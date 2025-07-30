@@ -4,6 +4,7 @@ import { BlogSlice } from "./slice/blog.slice";
 import { CommentSlice } from "./slice/comment.slice";
 import { AuthSlice } from "./slice/auth.slice";
 import { LikeSlice } from "./slice/like.slice";
+import { DislikeSlice } from "./slice/dislike.slice";
 
 export const RootReducer = combineReducers({
   
@@ -11,7 +12,8 @@ export const RootReducer = combineReducers({
     blog: BlogSlice.reducer,
     comment: CommentSlice.reducer,
     auth: AuthSlice.reducer,
-    like: LikeSlice.reducer
+    like: LikeSlice.reducer,
+    dislike: DislikeSlice.reducer
     
 
 })

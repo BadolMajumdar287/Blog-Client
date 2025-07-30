@@ -71,7 +71,7 @@ export class AuthAction{
               try {
 
                 const {data} = await ApiManager.get("api/users/session",payload);
-                      console.log(data)
+                      
                 return fulfillWithValue(data)
                    
               } catch (error) {

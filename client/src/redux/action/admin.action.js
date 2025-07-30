@@ -13,7 +13,7 @@ export class AdminAction{
               try {
 
                 const {data} = await ApiManager.post("api/admin/register",payload);
-             
+                        
                 return fulfillWithValue(data)
                    
               } catch (error) {
@@ -41,7 +41,7 @@ export class AdminAction{
               try {
 
                 const {data} = await ApiManager.post("api/admin/login",payload);
-             
+                         
                 return fulfillWithValue(data)
                    
               } catch (error) {
