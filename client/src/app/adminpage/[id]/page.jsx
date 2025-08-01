@@ -35,7 +35,7 @@ export default function BlogDetail(){
 
       return(
         <div className="mt-10">
-             <img src={getImageUrl(blog?.advator?.[0]?.filename)} alt={blog?.title} className="border h-90 w-115"/>
+             <img src={getImageUrl(blog?.advator?.[0]?.filename)} alt={blog?.title} className="border h-90 w-125"/>
 
              <h1 className="text-cyan-100 text-2xl p-2 ">{blog?.title}</h1>
            <p className="text-cyan-50 text-xl p-2">{blog?.content}</p>

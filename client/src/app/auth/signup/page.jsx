@@ -33,7 +33,7 @@ export default function UserSignup(){
 
       return(
            
-          <div className="border w-70 h-65 ">
+          <div className="border w-70 h-65 mt-80 ml-30">
                    <p className="text-cyan-500 pl-18">User Signup page</p>
                 <div className="mt-12 ml-8">
                     <input className="h-8 rounded-2xl bg-cyan-700 text-cyan-300 pl-2 "

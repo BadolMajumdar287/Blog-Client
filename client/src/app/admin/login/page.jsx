@@ -11,9 +11,9 @@ export default function LoginPage(){
 
        const [email,setemail] = useState("");
        const [password,setpassword] = useState("");
-         
+        
        const dispatch = useDispatch();
-
+        const router = useRouter();
        async function handleLoginAdmin(){
 
             if(!email) return toast.error("email is required");
@@ -25,6 +25,7 @@ export default function LoginPage(){
               toast.success(res.payload?.message);
                setemail("");
                setpassword("");
+               router.push("/adminpage");
                }else if(res.payload?.error){
                 toast.error(res.payload?.error);
                }

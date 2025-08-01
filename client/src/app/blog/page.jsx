@@ -1,160 +1,92 @@
 "use client";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { BlogAction } from "@/redux/action/blog.action";
 import { AdminAction } from "@/redux/action/admin.action";
-import { toast } from "sonner";
-import { useEffect,useState } from "react";
-import Link from "next/link";
-import { getImageUrl } from "@/lib/image";
-import { User,ThumbsUp,ThumbsDown } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { AuthAction } from "@/redux/action/auth.action";
 import { LikeAction } from "@/redux/action/like.action";
-import { DislikeAction } from "@/redux/action/dislike.action";
+import { toast } from "sonner";
+import Link from "next/link";
+import { getImageUrl } from "@/lib/image";
+import { User, ThumbsUp, ThumbsDown } from "lucide-react";
+
+
+export default function BlogPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const { allblog } = useSelector(state => state.blog);
+  const { admin } = useSelector(state => state.admin);
+  const { allLike } = useSelector(state => state.like);
+  const {user} = useSelector(state => state.auth);
 
 
 
+  const [likeMap, setLikeMap] = useState({});
+  
 
-export default function BlogPage(){
+ 
+ 
+ 
+ 
+  useEffect(() => {
+    dispatch(BlogAction.GetAllBlog());
+    dispatch(AdminAction.Session());
+    dispatch(AuthAction.Session());
+    dispatch(LikeAction.AllLikeGet());
+    
+  }, [dispatch]);
 
-      const dispatch = useDispatch();
-      const {blog,allblog,loading,message,error} = useSelector((state) => state.blog);
-      const {admin} = useSelector(state => state.admin);
-      const [like,setlike] = useState(true);
-      const [dislike,setdislike] = useState(true);
-      const { alldislike } = useSelector(state => state.dislike);
-      const {allLike} = useSelector(state => state.like);
-       
-       
-      const router = useRouter();
-       
-      async function handleSessionAdmin() {
+  const handleLikeCreate = (blogId) => {
 
-         const res = await dispatch(AdminAction.Session());
-           
-         if(res.payload?.message){
-            toast.success(res.payload?.message)
-         }else if(res.payload?.error){
-             toast.error(res.payload?.error)
-         }
-         
-      }
+    if(!user && ! admin) return router.push("/auth/login");
+    const alreadyLiked = likeMap[blogId];
+    const newVal = !alreadyLiked;
 
-      async function handleUserSession() {
-         
-       const res =  await dispatch(AuthAction.Session());
-        
-      
+    dispatch(LikeAction.CreateLike({ like: newVal, blogId }));
+    setLikeMap(prev => ({ ...prev, [blogId]: newVal }));
+  };
 
-      }
+  
+  return (
+    <div className="p-4">
+      {allblog.map((item) => {
 
-      async function handleGetAllBlog() {
-        
-                 const res = await dispatch(BlogAction.GetAllBlog());
-                  
-                 if(res.payload?.message){
-                    
-                    toast.success(res.payload?.message);
-                      router.push("/blog")
-                 }else if(res.payload?.error){
-                    toast.error(res.payload?.error);
-                 }
+        const likeCount = allLike.filter(like => like.blogId === item._id).length;
 
-      }
+        return (
+          <div key={item._id} className="border mb-5 p-4 rounded-xl bg-gray-800 text-white w-full mt-4">
+            <Link href={`/blog/${item._id}`}>
+              <img
+                src={getImageUrl(item?.advator?.[0]?.filename)}
+                alt={item.title}
+                className="h-60 w-full object-cover rounded-md"
+              />
+              <h1 className="text-2xl mt-2">{item?.title}</h1>
+            </Link>
+            <p className="text-sm text-gray-400 pt-2">{item?.createdAt?.substring(0, 10)}</p>
 
-      async function hundleLikecreate(blogId) {
-          setlike(prev => !prev);
-       const res =  await dispatch(LikeAction.CreateLike({like,blogId}))
-       if(res.payload?.message){
-            toast.success(res.payload?.message)
-             router.push("/blog")
-         }else if(res.payload?.error){
-             toast.error(res.payload?.error)
-             router.push("/auth/login")
-         }
-      }
+            <div className="flex justify-between items-center mt-3">
+              <button
+                onClick={() => handleLikeCreate(item._id)}
+                className="flex items-center gap-2 hover:text-green-400"
+              >
+                <ThumbsUp size={18} /> {likeCount}
+              </button>
 
-
-      async function hunduleGetallLike() {
-
-         const res = await dispatch(LikeAction.AllLikeGet());
-
-         
-      }
-
-
-      async function handleDislikeCreate(blogId) {
-            setdislike(prev => !prev);
-           const res = await dispatch(DislikeAction.CreateDislike({dislike,blogId}))
-
-           if(res.payload?.message){
-            toast.success(res.payload?.message)
-             router.push("/blog")
-         }else if(res.payload?.error){
-             toast.error(res.payload?.error)
-             router.push("/auth/login")
-         }
-      }
-
-      async function handleGetAllDislike() {
-          
-         const res = await dispatch(DislikeAction.GetAllDisLike());
-      }
-
-      useEffect(() => {
-        handleGetAllBlog();
-        handleSessionAdmin();
-        handleUserSession();
-        hunduleGetallLike();
-        handleGetAllDislike();
-      },[]);
-
-    return(
-       <div className="">
-            {allblog.map((item) => {
-                    const dislikeCount = alldislike.filter(dis => dis.blogId === item._id).length;
-                    const allLikeCount =  allLike.filter(like => like.blogId === item._id).length;
-                    
-                   return(
-                   
-                     
-            <div key={item._id} className=" h-fit w-106 mt-0.5">
-                  <Link href={`/blog/${item?._id}`}>
-                  <img src={getImageUrl(item?.advator?.[0]?.filename)} alt={item.title} className="border h-90 w-115"/>
-                  <h1 className="text-cyan-50 text-2xl p-3">{item?.title}</h1>
-                  </Link>
-                  <h2 className="text-cyan-200 text-sm pl-2">{item?.createdAt.substring(0, 10)}</h2>
-               
-                     
-                     
-
-                     <div className="flex justify-between">
-                       
-                         
-                          
-                          <button className="mb-1 ml-4" onClick={() => hundleLikecreate(item._id)}><ThumbsUp />{allLikeCount}</button>
-                          
-                         <button className="mb-1 mr-2" onClick={() => handleDislikeCreate(item._id)}><ThumbsDown />{dislikeCount}</button> 
-                           <div>
-                             <button className="border w-45 h-7 rounded-2xl pr-16" onClick={() => router.push(`/blog/comment/${item._id}`)}>Comment.....</button>
-                           </div>
-                           
-                     </div>
-
-                       
-                  
-            </div>
-
-
-                   )
-
-            }
-                 
               
 
-             
-             )}
-       </div>
-    )
-}                  
+              <button
+                onClick={() => router.push(`/blog/comment/${item._id}`)}
+                className="bg-cyan-600 text-white px-4 py-1 rounded-full text-sm hover:bg-cyan-700 mr-60"
+              >
+                Comment...
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

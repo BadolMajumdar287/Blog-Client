@@ -65,15 +65,15 @@ export default function AdminNavbar(){
        }
     return(
       <div>
-          <div className="fixed top-0 left-0 right-0 h-9 w-97 bg-cyan-900 flex justify-between items-center">
+          <div className="fixed top-0 left-0 right-0 h-9 w-122 bg-cyan-900 flex justify-between items-center">
                 <div className="flex gap-3 ml-2 text-cyan-300">
                      <button className="border h-fit w-fit rounded-full bg-cyan-800" onClick={() => setAdminName(prev => !prev)}><User color="cyan"/></button>
                      <button className="border h-fit w-fit rounded-2xl bg-cyan-800" onClick={() => router.push("/")}>Home</button>
                      <button className="border h-fit w-fit rounded-2xl bg-cyan-800" onClick={() => router.push("/blog")}>Blog</button>
                 </div>
 
-                 <div className="border h-fit w-fit rounded-full flex justify-center items-center bg-cyan-800">
-                    <button onClick={() => setshowLogout(prev => !prev)}><EllipsisVertical color="cyan"/></button>
+                 <div className="border h-fit w-fit rounded-full flex justify-center items-center bg-cyan-800 ">
+                    <button onClick={() => setshowLogout(prev => !prev)} ><EllipsisVertical color="cyan"/></button>
                  </div>
            </div> 
                 < div className=" absolute ml-92 bg-cyan-900 h-29 ">

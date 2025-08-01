@@ -8,11 +8,11 @@ export class LikeAction{
            "api/likes/create",
 
          async (payload,{rejectWithValue, fulfillWithValue }) => {
-            
+               
               try {
-
+               
                 const {data} = await ApiManager.post("api/likes/create",payload);
-             
+                
                 return fulfillWithValue(data)
                    
               } catch (error) {

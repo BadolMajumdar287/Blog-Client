@@ -7,6 +7,8 @@ import { useEffect,useState } from "react";
 import { toast } from "sonner";
 import { CommentAction } from "@/redux/action/comment.action";
 import { SendHorizontal,User } from "lucide-react";
+import { CommentLikeAction } from "@/redux/action/comment.like.action";
+import { useRouter } from "next/navigation";
 
 
 export default function commentPage(){
@@ -16,16 +18,28 @@ export default function commentPage(){
    const dispatch = useDispatch();
    const [comment,setcomment] = useState("");
    const {allcomment} = useSelector(state => state.comment);
-   const [deletecomment,setdeletecomment] = useState("")
- 
+   const [deletecomment,setdeletecomment] = useState("");
+   const [commentlike,setcommentlike] = useState(false);
+   const {allCommentLike} = useSelector(state => state.commentlike);
+   const {user} = useSelector(state => state.auth);
+   const { admin } = useSelector(state => state.admin)
+   const router = useRouter();
+   
+
+   
+   
+
+  
    const filtered = allcomment.filter(c => c.blogId === blogId);
 
    
   
   
    async function hundlecreateComment() {
-    
-         const res = await dispatch(CommentAction.Register({comment,blogId}));
+            
+        if(!user && !admin) return router.push("/auth/login");
+
+         const res = await dispatch(CommentAction.Register({blogId,comment:comment}));
 
          if(res.payload?.message){
             toast.success(res.payload?.message);
@@ -68,8 +82,34 @@ export default function commentPage(){
         }
    }
 
+
+
+   async function handleCommentLikeCraete(blogId,commentlikeid,commentlike) {
+    
+       if(!user && !admin) return router.push("/auth/login");
+       
+    const res = await dispatch(CommentLikeAction.Register({blogId, commentId:commentlikeid,like:commentlike}));
+ 
+    if(res.payload?.message){
+        toast.success(res.payload?.message)
+    }else if(res.payload?.error){
+        toast.error(res.payload?.error)
+    }
+    
+   }
+
+  
+
+
+   async function hundlegetallCommentlike() {
+         
+           const res = await dispatch(CommentLikeAction.GetAll())
+
+   }
+
    useEffect(() => {
     handleGetAllComment()
+    hundlegetallCommentlike()
    },[])
 
    
@@ -116,7 +156,7 @@ export default function commentPage(){
                 filtered.map((item) => {
                  
                     const comenter = item?.adminId?.fullname || item?.userId?.name || "unknown"
-
+                     const AllCommentLikeCount = allCommentLike.filter(c => c.blogId === blogId &&  c.commentId === item._id).length
                     return(
                        <div key={item._id} className="">
                          
@@ -132,11 +172,22 @@ export default function commentPage(){
                                   <button></button>
                                   
                              </div>
-                                 
-                                   <div className="ml-30">
-                                    <button className="mr-8 text-xl text-cyan-500">Like</button>
+                                   
+                                   <div className="ml-25">
+                                    
+                                     
+                                    
+                                    <button className="mr-8 text-xl text-cyan-500" onClick={() =>{
+                                        
+                                        setcommentlike(true)
+                                        handleCommentLikeCraete(blogId,item._id,commentlike)}}>{AllCommentLikeCount} Like</button>
+                                    
                                     <button className="text-xl text-red-300" onClick={() => setdeletecomment(item._id)}>Delete</button>
+
+                                      
                                   </div>
+
+                                  
 
                                   
                          

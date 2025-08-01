@@ -129,10 +129,11 @@ export default function AdminBlogPage(){
 
               {
                 allblog.map((item,index) => (
-                    <div key={index}>
+                    <div key={index} className="border bg-cyan-950 mt-10">
                         <Link href={`/adminpage/${item._id}`}>
-                        <img src= {getImageUrl(item.advator?.[0].filename)} className="border h-90 w-115"/>
+                        <img src= {getImageUrl(item.advator?.[0].filename)} className="border h-90 w-125"/>
                         <h1 className="text-xl mt-2 pl-2">{item.title}</h1>
+                         <p className="text-sm text-gray-400 pt-2 pl-2">{item?.createdAt?.substring(0, 10)}</p>
                         
                         </Link>
                     </div>
