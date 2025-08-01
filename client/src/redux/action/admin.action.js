@@ -37,7 +37,7 @@ export class AdminAction{
          "api/admin/login",
 
             async (payload,{rejectWithValue, fulfillWithValue }) => {
-          
+                 
               try {
 
                 const {data} = await ApiManager.post("api/admin/login",payload);
