@@ -87,7 +87,7 @@ export default function commentPage(){
    async function handleCommentLikeCraete(blogId,commentlikeid,commentlike) {
     
        if(!user && !admin) return router.push("/auth/login");
-       
+          
     const res = await dispatch(CommentLikeAction.Register({blogId, commentId:commentlikeid,like:commentlike}));
  
     if(res.payload?.message){

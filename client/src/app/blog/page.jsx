@@ -39,7 +39,7 @@ export default function BlogPage() {
   }, [dispatch]);
 
   const handleLikeCreate = (blogId) => {
-
+ 
     if(!user && ! admin) return router.push("/auth/login");
     const alreadyLiked = likeMap[blogId];
     const newVal = !alreadyLiked;

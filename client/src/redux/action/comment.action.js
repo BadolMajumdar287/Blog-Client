@@ -55,7 +55,7 @@ export class CommentAction {
     async (payload, { rejectWithValue, fulfillWithValue }) => {
       try {
         const { data } = await ApiManager.delete(`api/comments/delete/${payload}`);
-            console.log(data)
+            
         return fulfillWithValue(data);
         
       } catch (error) {
