@@ -58,6 +58,6 @@ const url = `${process.env.NEXT_PUBLIC_API_BASE}/api/admin/session`
 
 export const config = {
 
-  matcher: ['/adminblog/:path*', '/admin/:path*',"/api/:path*"],
+  matcher: ['/adminpage/:path*', '/admin/:path*',"/api/:path*"],
   
 };
