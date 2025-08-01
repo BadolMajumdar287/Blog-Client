@@ -6,7 +6,7 @@ export default function Homepage(){
     
     return(
         <div>
-            Homepage
+            Homepage.all
         </div>
     )
 }
