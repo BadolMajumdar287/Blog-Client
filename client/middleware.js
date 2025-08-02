@@ -5,21 +5,19 @@ export default async function middleware(request) {
   try {
     const pathName = request.nextUrl.pathname;
 
+    
     if (!pathName.startsWith("/admin") && !pathName.startsWith("/adminpage")) {
       return NextResponse.next();
     }
 
-    
     const sessionKey = cookies().get("session")?.value;
 
-    
     if (!sessionKey) {
       return NextResponse.redirect(new URL("/admin/login", request.nextUrl.origin));
     }
 
-    
-    const url = `${process.env.API_BASE}/api/admin/session`;
-         
+    const url = `${process.env.NEXT_PUBLIC_API_BASE}/api/admin/session`;
+
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -50,5 +48,5 @@ export default async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/adminpage/:path*", "/admin/:path*","api/:path*"],
+  matcher: ["/adminpage/:path*", "/admin/:path*"],
 };

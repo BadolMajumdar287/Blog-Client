@@ -27,7 +27,7 @@ export default function BlogPage() {
   
 
  
- 
+
  
  
   useEffect(() => {
@@ -74,8 +74,6 @@ export default function BlogPage() {
               >
                 <ThumbsUp size={18} /> {likeCount}
               </button>
-
-              
 
               <button
                 onClick={() => router.push(`/blog/comment/${item._id}`)}
