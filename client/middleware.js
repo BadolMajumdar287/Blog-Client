@@ -24,6 +24,7 @@ export default async function middleware(request) {
         session: sessionKey,
         "Content-Type": "application/json",
       },
+      credentials: "include", 
     });
 
     if (!res.ok) {
