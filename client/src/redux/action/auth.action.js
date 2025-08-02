@@ -69,7 +69,7 @@ export class AuthAction{
             async (payload,{rejectWithValue, fulfillWithValue }) => {
           
               try {
-              console.log(payload)
+              
                 const {data} = await ApiManager.get("api/users/session",payload);
                       
                 return fulfillWithValue(data)
